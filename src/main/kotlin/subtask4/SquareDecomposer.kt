@@ -2,8 +2,24 @@ package subtask4
 
 class SquareDecomposer {
 
-    // TODO: Complete the following function
     fun decomposeNumber(number: Int): Array<Int>? {
-        throw NotImplementedError("Not implemented")
+        if (number < 0) {
+            return null
+        }
+
+        val value = number * number
+        var result = mutableListOf<Int>()
+
+//        while (va)
+
+
+        result.add(number - 1)
+
+
+
+
+
+
+        return null
     }
 }
