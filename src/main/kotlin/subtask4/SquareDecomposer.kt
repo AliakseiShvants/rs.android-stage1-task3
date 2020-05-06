@@ -1,8 +1,5 @@
 package subtask4
 
-import kotlin.math.floor
-import kotlin.math.sqrt
-
 class SquareDecomposer {
 
     fun decomposeNumber(number: Int): Array<Int>? {
@@ -10,34 +7,42 @@ class SquareDecomposer {
             return null
         }
 
-        var result = mutableListOf<Int>()
-        result.add(number - 1)
+        val longNumber = number.toLong()
+        val decomposeArr = decompose(longNumber, longNumber * longNumber)
 
-        val diff0: Double = (2 * number - 1).toDouble()
-        val start = floor(sqrt(diff0)).toInt()
+        if (decomposeArr != null) {
+            val result = mutableListOf<Int>()
+            decomposeArr.remove(decomposeArr.last())
 
-        for (x in start downTo 1) {
-            var tempList = mutableListOf<Int>()
-            var diff: Double = diff0 - x * x
-            tempList.add(x)
-
-
-            while (diff > 0) {
-                val item = floor(sqrt(diff)).toInt()
-                tempList.add(item)
-                diff -= item * item
+            decomposeArr.forEach {
+                result.add(it.toInt())
             }
 
-            if (isIncrease(tempList)) {
-                result.addAll(tempList)
-                result.sort()
-
-                return result.toTypedArray()
-            }
+            return result.toTypedArray()
         }
 
         return null
     }
 
-    private fun isIncrease(tempList: MutableList<Int>) = tempList.size == tempList.toSet().size
+    private fun decompose(current: Long, rest: Long): MutableList<Long>? {
+        if (rest == 0L) {
+            return mutableListOf(current)
+        }
+
+        for (x in current - 1 downTo 0) {
+            val diff = rest - x * x
+
+            if (diff >= 0) {
+                val resultList = decompose(x, diff)
+
+                if (resultList != null) {
+                    resultList.add(current)
+
+                    return resultList
+                }
+            }
+        }
+
+        return null
+    }
 }
